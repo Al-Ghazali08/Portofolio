@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Matter.js Physics Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
 
@@ -155,7 +157,7 @@
       perspective: 1200px;
       position: relative;
       width: 100%;
-      height: 500px;
+      height: 520px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -307,6 +309,67 @@
       0% { transform: scaleY(0.3); }
       100% { transform: scaleY(1.1); }
     }
+
+    /* EASTER EGG LANYARD OVERLAY (KHUSUS DESKTOP) */
+    #lanyard-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.92);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #lanyard-container.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+    #lanyard-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      touch-action: pan-y;
+    }
+    /* ID Card DOM */
+    #lanyard-card-dom {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 340px;
+      transform-origin: center center;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 30px rgba(99, 102, 241, 0.3);
+      border-radius: 20px;
+      border: 2px solid rgba(129, 140, 248, 0.6);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
+      backdrop-filter: blur(15px);
+    }
+    #lanyard-card-dom img {
+      pointer-events: none;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    /* Tombol Close Overlay Lanyard */
+    .lanyard-close-btn {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      z-index: 110;
+      pointer-events: auto;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="relative">
@@ -325,7 +388,7 @@
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Widget Control Audio Floating (Pojok Kanan Bawah, Bebas dari Header Atas) -->
+  <!-- Widget Control Audio Floating -->
   <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
     <button id="audio-toggle-btn" onclick="toggleAudio()" class="is-muted flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border-[1.5px] border-slate-700/80 hover:border-indigo-500/80 text-white shadow-2xl transition-all active:scale-95 group" title="Nyalakan/Matikan Backsound">
       <div class="flex items-end gap-0.5 h-3.5 w-3.5 justify-center">
@@ -334,7 +397,6 @@
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
-      <!-- Teks disembunyikan di layar HP kecil agar tidak makan tempat -->
       <span id="audio-status-text" class="hidden sm:inline text-[11px] font-mono text-slate-300 group-hover:text-white transition">Something Just Like This</span>
       <i id="audio-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition"></i>
     </button>
@@ -344,52 +406,90 @@
   <header class="fixed top-0 left-0 w-full z-40 p-3 sm:p-6 pointer-events-none">
     <div class="max-w-5xl mx-auto flex items-center justify-between bg-slate-900/85 backdrop-blur-md border-[1.5px] border-slate-700/80 rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2.5 shadow-xl pointer-events-auto min-h-[46px] sm:min-h-[58px]">
       
-      <!-- KIRI: Foto Profil + Nama -->
-      <div id="profile-identity" class="flex items-center gap-2.5 cursor-pointer group" role="button" tabindex="0" aria-label="Kembali ke bagian Home" onclick="scrollToHero()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToHero();}">
-        <div class="relative w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-indigo-500/80 shadow-md">
+      <!-- KIRI: Foto Profil + Nama (Easter Egg Lanyard Hanya Aktif di PC) -->
+      <div id="profile-identity" class="flex items-center gap-2.5 cursor-pointer group" role="button" tabindex="0" aria-label="Buka ID Card Berkalung" onclick="toggleLanyard(true)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleLanyard(true);}">
+        <div class="relative w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-indigo-500/80 shadow-md group-hover:border-indigo-400 transition">
           <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover">
         </div>
         <div class="flex flex-col">
           <span class="text-[11px] sm:text-xs font-bold text-white tracking-wide group-hover:text-indigo-300 transition">Abdul Hanif Al Ghazali</span>
-          <span class="text-[8px] sm:text-[10px] font-mono text-slate-400">Teknik Informatika Multimedia</span>
+          <span class="text-[8px] sm:text-[10px] font-mono text-slate-400 flex items-center gap-1">
+            Teknik Informatika Multimedia
+            <span class="text-[9px] text-indigo-400 group-hover:animate-bounce hidden sm:inline">✦</span>
+          </span>
         </div>
       </div>
 
-      <!-- TENGAH/KANAN: Navigasi Utama (Hanya Tampil di Desktop/Tablet) -->
+      <!-- TENGAH/KANAN: Navigasi Utama -->
       <nav class="hidden lg:flex items-center gap-1.5" id="nav-menu">
         <button id="nav-item-hero" onclick="scrollToHero()" class="nav-btn active-nav px-3.5 py-1.5 rounded-full text-xs font-semibold">Home</button>
         <button id="nav-item-0" onclick="jumpToStackCard(0)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">About</button>
         <button id="nav-item-1" onclick="jumpToStackCard(1)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">CV & Resume</button>
         <button id="nav-item-2" onclick="jumpToStackCard(2)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">Projects</button>
         <button id="nav-item-3" onclick="jumpToStackCard(3)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">Reels</button>
-        <button id="nav-item-4" onclick="jumpToStackCard(4)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">Contact</button>
+        <button id="nav-item-4" onclick="jumpToStackCard(4)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">Certificates</button>
+        <button id="nav-item-5" onclick="jumpToStackCard(5)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">Contact</button>
       </nav>
 
     </div>
   </header>
 
+  <!-- EASTER EGG: LANYARD ID CARD OVERLAY (KHUSUS DESKTOP) -->
+  <div id="lanyard-container">
+    <canvas id="lanyard-canvas"></canvas>
+
+    <!-- Tombol Exit Overlay -->
+    <button onclick="toggleLanyard(false)" class="lanyard-close-btn px-3.5 py-1.5 rounded-full bg-slate-900/90 hover:bg-rose-600 text-white font-mono text-xs flex items-center gap-1.5 border border-slate-700 shadow-2xl transition active:scale-95">
+      <span>Tutup Card</span> ✕
+    </button>
+    
+    <!-- DOM Card Peserta Interaktif -->
+    <div id="lanyard-card-dom" class="flex flex-col justify-between p-4 text-center relative">
+      <div class="w-8 h-2 bg-slate-800 border border-slate-600 rounded-full mx-auto -mt-1 shadow-inner"></div>
+
+      <div class="mt-1">
+        <div class="text-[9px] font-mono tracking-widest text-indigo-400 uppercase font-bold">KARTU PESERTA PORTFOLIO</div>
+        <div class="text-[8px] font-mono text-slate-400">POLITEKNIK NEGERI SAMARINDA</div>
+      </div>
+
+      <div class="relative w-28 h-28 mx-auto my-1.5 rounded-2xl overflow-hidden border-2 border-indigo-500 shadow-xl">
+        <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover" draggable="false">
+        <div class="absolute inset-0 bg-indigo-500/10 pointer-events-none"></div>
+      </div>
+
+      <div class="space-y-0.5">
+        <h3 class="text-xs font-extrabold text-white tracking-wide leading-tight">Abdul Hanif Al Ghazali</h3>
+        <p class="text-[9px] font-mono text-emerald-400 font-semibold">D4 Teknik Informatika Multimedia</p>
+        <p class="text-[8px] text-slate-400">Samarinda, Kalimantan Timur</p>
+      </div>
+
+      <div class="pt-1.5 border-t border-slate-800 flex items-center justify-between text-[8px] font-mono text-slate-500">
+        <span>ID: 2025-TIM-POLNES</span>
+        <span class="text-indigo-400">Tarik / Ayun Card ✦</span>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ==================== PAGE 1: HERO SECTION ==================== -->
   <section id="hero" class="hero-section text-center px-4 sm:px-6">
+
     <div class="max-w-3xl mx-auto space-y-4 sm:space-y-6">
       
-      <!-- Status Badge -->
       <div class="reveal-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border-[1.5px] border-slate-700 text-[10px] sm:text-xs font-mono text-slate-200 shadow-md">
         <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>Terbuka untuk Kolaborasi & Proyek</span>
       </div>
 
-      <!-- Main Headline -->
       <h1 class="reveal-item text-2xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
         Halo, aku Abdul Hanif Al Ghazali.<br/>
         Membangun Sistem & Media Interaktif.
       </h1>
 
-      <!-- Sub-headline -->
       <p class="reveal-item text-slate-300 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed px-2">
-        Mahasiswa <span class="text-white font-semibold">Teknik Informatika Multimedia</span> di Samarinda, Kalimantan Timur. Berfokus pada integrasi logika sistem, pengembangan aplikasi web interaktif, <i>Computer Vision</i>, serta pengolahan media digital.
+        Mahasiswa <span class="text-white font-semibold">Teknik Informatika Multimedia</span> di Samarinda, Kalimantan Timur. Berfokus pada integrasi logika sistem, pengembangan aplikasi web interaktif, <i>Computer Vision</i>, serta pengolahan media digital. Menguasai disiplin ilmu keagamaan Islam (<span class="text-emerald-400 font-medium">Nahwu, Shorof, Fikih, Ushul Fiqh, Faraid, Akidah</span>) dan aktif berbahasa Arab.
       </p>
 
-      <!-- Mini Tech Stack / Domain Chips -->
       <div class="reveal-item flex flex-wrap justify-center gap-1.5 sm:gap-2.5 pt-1">
         <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Full-Stack Dev</span>
         <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Interactive Multimedia</span>
@@ -397,7 +497,6 @@
         <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Network & Simulation</span>
       </div>
 
-      <!-- Action Buttons di Baris Hero -->
       <div class="reveal-item pt-3 sm:pt-5 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
         <button onclick="scrollToStack()" class="btn-hero-primary w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 group">
           <span>Jelajahi Kartu Portofolio</span>
@@ -412,7 +511,6 @@
 
     </div>
 
-    <!-- Indicator Scroll ke Bawah -->
     <div class="mt-8 flex flex-col items-center gap-1 cursor-pointer opacity-75 hover:opacity-100 transition" role="button" tabindex="0" aria-label="Gulir ke kartu portofolio" onclick="scrollToStack()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToStack();}">
       <span class="text-[9px] sm:text-[11px] font-mono text-slate-400 uppercase tracking-widest">Scroll Down To Open Cards</span>
       <i data-lucide="chevron-down" class="w-4 h-4 text-indigo-400 animate-bounce"></i>
@@ -424,54 +522,65 @@
   <section id="stack-container" class="stack-section w-full">
     <div class="w-full max-w-5xl mx-auto px-3 sm:px-4">
       
-      <!-- Viewport Tumpukan Kartu -->
       <div id="card-viewport" class="card-stack-viewport">
 
-        <!-- CARD 01: ABOUT ME -->
+        <!-- CARD 01: ABOUT ME (OPTIMIZED HP VIEW) -->
         <article class="stack-card active" data-index="0">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-3 sm:mb-4">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border-[1.5px] border-cyan-500/30 text-cyan-400 text-[10px] sm:text-xs font-mono">
+              <!-- Header Kartu & Profil Paslon/Card Header -->
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2 sm:mb-4">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-cyan-500/10 border-[1.5px] border-cyan-500/30 text-cyan-400 text-[10px] sm:text-xs font-mono">
                   <i data-lucide="user" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                   <span>Kartu 01 — About Me</span>
                 </div>
 
-                <!-- TARGET TRANSISI FOTO PROFIL & NAMA DI KARTU 01 -->
-                <div id="card-01-profile" class="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 rounded-full px-2.5 py-1 shadow-md">
-                  <div class="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden border-2 border-indigo-500">
+                <!-- Profil Widget (Di HP Lebih Luas & Tidak Sempit) -->
+                <div id="card-01-profile" class="flex items-center gap-2.5 bg-slate-900/90 border-2 border-indigo-500/60 rounded-full pl-1.5 pr-3 py-1 sm:pl-2 sm:pr-4 sm:py-1.5 shadow-lg">
+                  <div class="relative w-8 h-8 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-indigo-400 shadow-md flex-shrink-0">
                     <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover">
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-[10px] sm:text-xs font-bold text-white tracking-wide">Abdul Hanif Al Ghazali</span>
-                    <span class="text-[8px] sm:text-[9px] font-mono text-slate-400">TIM POLNES</span>
+                    <span class="text-[11px] sm:text-sm font-bold text-white tracking-wide leading-tight">Abdul Hanif Al Ghazali</span>
+                    <span class="text-[8px] sm:text-[10px] font-mono text-indigo-300">TIM POLNES</span>
                   </div>
                 </div>
               </div>
 
-              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">Tentang Diri Saya</h2>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-5">
+              <h2 class="text-lg sm:text-3xl font-bold text-white mb-1.5 sm:mb-3">Tentang Diri Saya</h2>
+              <p class="text-slate-300 text-[11px] sm:text-sm leading-relaxed mb-2.5 sm:mb-4">
                 "Saya adalah seorang mahasiswa Teknik Informatika Multimedia yang berfokus pada integrasi logika sistem, pengembangan aplikasi web interaktif, computer vision, serta pengolahan media digital."
               </p>
               
-              <div class="space-y-2 sm:space-y-3.5 mb-3">
-                <div class="p-3 sm:p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/50 transition">
-                  <h3 class="text-indigo-400 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
-                    <i data-lucide="map-pin" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> Lokasi & Domisili
+              <div class="space-y-2 sm:space-y-3 mb-2">
+                <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/90 border-[1.5px] border-emerald-500/40 shadow-sm">
+                  <h3 class="text-emerald-400 text-[9px] sm:text-xs font-semibold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <i data-lucide="book-open" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> PEMAHAMAN ILMU AGAMA ISLAM & BAHASA ARAB
                   </h3>
-                  <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">Samarinda, Kalimantan Timur, Indonesia</p>
+                  <p class="text-[10px] sm:text-xs text-slate-300 leading-relaxed">
+                    Mempunyai landasan kuat dalam gramatika bahasa Arab (<span class="text-white font-medium">Nahwu & Shorof</span>), hukum Islam (<span class="text-white font-medium">Fikih & Ushul Fiqh</span>), ilmu waris (<span class="text-white font-medium">Faraid</span>), landasan <span class="text-white font-medium">Akidah</span>, serta aktif berkomunikasi dan membaca literatur berbahasa Arab.
+                  </p>
                 </div>
-                <div class="p-3 sm:p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-cyan-500/50 transition">
-                  <h3 class="text-cyan-400 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
-                    <i data-lucide="briefcase" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> Peran & Status
-                  </h3>
-                  <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">Mahasiswa TIM / Full-Stack & Multimedia Developer — Terbuka untuk Kolaborasi Proyek.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div class="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700">
+                    <h3 class="text-indigo-400 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1">
+                      <i data-lucide="map-pin" class="w-3 h-3"></i> Lokasi & Domisili
+                    </h3>
+                    <p class="text-[10px] sm:text-xs text-slate-300">Samarinda, Kalimantan Timur</p>
+                  </div>
+                  <div class="p-2 sm:p-2.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700">
+                    <h3 class="text-cyan-400 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1">
+                      <i data-lucide="briefcase" class="w-3 h-3"></i> Status Saat Ini
+                    </h3>
+                    <p class="text-[10px] sm:text-xs text-slate-300">Mahasiswa TIM & Web Developer</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-4">
-              <span class="text-[10px] sm:text-xs text-slate-500 font-mono">01 / 05</span>
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2 sm:pt-4">
+              <span class="text-[10px] sm:text-xs text-slate-500 font-mono">01 / 06</span>
               <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Lanjut ke CV & Resume</span>
                 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
@@ -484,21 +593,20 @@
         <article class="stack-card next-1" data-index="1">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border-[1.5px] border-indigo-500/30 text-indigo-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border-[1.5px] border-indigo-500/30 text-indigo-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
                 <i data-lucide="file-text" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 02 — CV & Resume</span>
               </div>
               
-              <div class="flex items-center justify-between mb-2 sm:mb-3">
+              <div class="flex items-center justify-between mb-2">
                 <h2 class="text-xl sm:text-3xl font-bold text-white">Kurikulum Vitae</h2>
-                <button onclick="jumpToStackCard(4)" class="btn-hero-primary px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl text-white text-[10px] sm:text-xs font-semibold flex items-center gap-1.5">
+                <button onclick="jumpToStackCard(5)" class="btn-hero-primary px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl text-white text-[10px] sm:text-xs font-semibold flex items-center gap-1.5">
                   <i data-lucide="mail" class="w-3 h-3"></i> Contact Me
                 </button>
               </div>
 
-              <!-- Tech Stack & Tools -->
-              <div class="mb-3">
-                <h3 class="text-[10px] sm:text-xs font-mono text-slate-400 mb-1.5">Tech Stack & Tools:</h3>
+              <div class="mb-2.5">
+                <h3 class="text-[10px] sm:text-xs font-mono text-slate-400 mb-1">Tech Stack & Keahlian:</h3>
                 <div class="flex flex-wrap gap-1">
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Python</span>
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">JavaScript</span>
@@ -507,14 +615,13 @@
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Java</span>
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Tailwind</span>
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">OpenCV & MediaPipe</span>
-                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">SUMO & GNS3</span>
                   <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">DaVinci Resolve</span>
-                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Figma & Affinity</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-emerald-950/80 border-emerald-500/30 text-[10px] font-mono text-emerald-300">Nahwu, Shorof, Fikih, Ushul Fiqh, Faraid, Akidah</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-emerald-950/80 border-emerald-500/30 text-[10px] font-mono text-emerald-300">Bahasa Arab</span>
                 </div>
               </div>
 
-              <!-- Riwayat Pendidikan -->
-              <div class="space-y-1.5 mb-3">
+              <div class="space-y-1.5 mb-2.5">
                 <h3 class="text-[10px] sm:text-xs font-mono text-indigo-400 font-semibold uppercase tracking-wider">Pendidikan:</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
                   <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-indigo-500">
@@ -536,14 +643,15 @@
                 </div>
               </div>
 
-              <!-- Pengalaman -->
               <div class="space-y-1">
                 <h3 class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold uppercase tracking-wider">Pengalaman:</h3>
-                <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
-                  <span class="font-semibold text-white text-[11px]">Ketua Sarpras — ORSAF Paser</span>
-                </div>
-                <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
-                  <span class="font-semibold text-white text-[11px]">Pemateri Sosialisasi SMPN 36 Samarinda</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                  <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
+                    <span class="font-semibold text-white text-[11px] block">Ketua Sarpras — ORSAF Paser</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
+                    <span class="font-semibold text-white text-[11px] block">Pemateri Sosialisasi SMPN 36 Samarinda</span>
+                  </div>
                 </div>
               </div>
 
@@ -572,7 +680,6 @@
               <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Proyek & Aplikasi</h2>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-                <!-- Project 1: Boxman -->
                 <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
@@ -586,7 +693,6 @@
                   </a>
                 </div>
 
-                <!-- Project 2: Song Clash -->
                 <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
@@ -600,7 +706,6 @@
                   </a>
                 </div>
 
-                <!-- Project 3: Undangan -->
                 <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
@@ -614,7 +719,6 @@
                   </a>
                 </div>
 
-                <!-- Project 4: Photobooth -->
                 <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
@@ -646,53 +750,166 @@
         <article class="stack-card far-back" data-index="3">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border-[1.5px] border-purple-500/30 text-purple-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border-[1.5px] border-purple-500/30 text-purple-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
                 <i data-lucide="film" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 04 — Video Reels</span>
               </div>
               <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Video Reels Instagram</h2>
 
-              <!-- Reels Grid Links -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-1">
-                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
-                    <span class="text-[11px] font-bold text-white">Instagram Reel #1</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-[290px] overflow-y-auto pr-1">
+                
+                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-purple-500/80 transition flex flex-col">
+                  <div class="relative h-28 w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.weserv.nl/?url=https://www.instagram.com/p/DRtso87ASgL/media/?size=m" alt="Tertekan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                    <div class="z-10 w-9 h-9 rounded-full bg-purple-600/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <i data-lucide="play" class="w-4 h-4 text-white fill-current translate-x-0.5"></i>
+                    </div>
                   </div>
-                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
+                  <div class="p-2 z-10 flex items-center justify-between bg-slate-900/95">
+                    <span class="text-[11px] font-bold text-white group-hover:text-purple-300 transition truncate">1. Tertekan(short movie)</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-purple-400 flex-shrink-0"></i>
+                  </div>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
-                    <span class="text-[11px] font-bold text-white">Instagram Reel #2</span>
+                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-purple-500/80 transition flex flex-col">
+                  <div class="relative h-28 w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.weserv.nl/?url=https://www.instagram.com/p/DWqwsqfAQ8X/media/?size=m" alt="Short music video" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                    <div class="z-10 w-9 h-9 rounded-full bg-purple-600/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <i data-lucide="play" class="w-4 h-4 text-white fill-current translate-x-0.5"></i>
+                    </div>
                   </div>
-                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
+                  <div class="p-2 z-10 flex items-center justify-between bg-slate-900/95">
+                    <span class="text-[11px] font-bold text-white group-hover:text-purple-300 transition truncate">2. Short music video</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-purple-400 flex-shrink-0"></i>
+                  </div>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
-                    <span class="text-[11px] font-bold text-white">Instagram Reel #3</span>
+                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-purple-500/80 transition flex flex-col">
+                  <div class="relative h-28 w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.weserv.nl/?url=https://www.instagram.com/p/DW584NWj7Oo/media/?size=m" alt="cinematic city" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                    <div class="z-10 w-9 h-9 rounded-full bg-purple-600/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <i data-lucide="play" class="w-4 h-4 text-white fill-current translate-x-0.5"></i>
+                    </div>
                   </div>
-                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
+                  <div class="p-2 z-10 flex items-center justify-between bg-slate-900/95">
+                    <span class="text-[11px] font-bold text-white group-hover:text-purple-300 transition truncate">3. cinematic city</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-purple-400 flex-shrink-0"></i>
+                  </div>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
-                    <span class="text-[11px] font-bold text-white">Instagram Reel #4</span>
+                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-purple-500/80 transition flex flex-col">
+                  <div class="relative h-28 w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.weserv.nl/?url=https://www.instagram.com/p/DanR9KRv3yw/media/?size=m" alt="AMV 1" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                    <div class="z-10 w-9 h-9 rounded-full bg-purple-600/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <i data-lucide="play" class="w-4 h-4 text-white fill-current translate-x-0.5"></i>
+                    </div>
                   </div>
-                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
+                  <div class="p-2 z-10 flex items-center justify-between bg-slate-900/95">
+                    <span class="text-[11px] font-bold text-white group-hover:text-purple-300 transition truncate">4. AMV 1</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-purple-400 flex-shrink-0"></i>
+                  </div>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
-                  <div class="flex items-center gap-2">
-                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
-                    <span class="text-[11px] font-bold text-white">Instagram Reel #5</span>
+                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:border-purple-500/80 transition flex flex-col">
+                  <div class="relative h-28 w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                    <img src="https://images.weserv.nl/?url=https://www.instagram.com/p/DbCuF7MvTyH/media/?size=m" alt="AMV 2" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/20 transition-colors"></div>
+                    <div class="z-10 w-9 h-9 rounded-full bg-purple-600/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <i data-lucide="play" class="w-4 h-4 text-white fill-current translate-x-0.5"></i>
+                    </div>
                   </div>
-                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
+                  <div class="p-2 z-10 flex items-center justify-between bg-slate-900/95">
+                    <span class="text-[11px] font-bold text-white group-hover:text-purple-300 transition truncate">5. AMV 2</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-purple-400 flex-shrink-0"></i>
+                  </div>
                 </a>
+
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-3">
+              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
+              </button>
+              <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
+                <span>Lanjut ke Sertifikat</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 05: SANAD & SERTIFIKAT -->
+        <article class="stack-card far-back" data-index="4">
+          <div class="h-full flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border-[1.5px] border-amber-500/30 text-amber-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-3">
+                <i data-lucide="award" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
+                <span>Kartu 05 — Sanad & Sertifikat</span>
+              </div>
+              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Sanad Keilmuan & Sertifikat</h2>
+              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+                Dokumen resmi ijazah sanad keilmuan Al-Qur'an & Tajwid serta sertifikat keahlian. Klik untuk membuka berkas PDF:
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 max-h-[280px] overflow-y-auto pr-1">
+                
+                <a href="sanad-alfatihah.pdf" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-500/80 transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                      <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xs font-bold text-white group-hover:text-amber-300 transition">1. Sanad Al-Fatihah</h3>
+                      <span class="text-[9px] text-slate-400 font-mono">Buka PDF Dokumen Sanad</span>
+                    </div>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 transition"></i>
+                </a>
+
+                <a href="sanad-tuhfatul-athfal.pdf" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-500/80 transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                      <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xs font-bold text-white group-hover:text-amber-300 transition">2. Sanad Tuhfathul Athfal</h3>
+                      <span class="text-[9px] text-slate-400 font-mono">Buka PDF Dokumen Sanad</span>
+                    </div>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 transition"></i>
+                </a>
+
+                <a href="sanad-jazari.pdf" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-500/80 transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                      <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xs font-bold text-white group-hover:text-amber-300 transition">3. Sanad Jazari</h3>
+                      <span class="text-[9px] text-slate-400 font-mono">Buka PDF Dokumen Sanad</span>
+                    </div>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 transition"></i>
+                </a>
+
+                <a href="sertifikat-pemateri-cv.pdf" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-indigo-500/80 transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                      <i data-lucide="award" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xs font-bold text-white group-hover:text-indigo-300 transition">4. Sertifikat Pemateri CV</h3>
+                      <span class="text-[9px] text-slate-400 font-mono">Pemateri Computer Vision</span>
+                    </div>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition"></i>
+                </a>
+
               </div>
             </div>
 
@@ -708,17 +925,17 @@
           </div>
         </article>
 
-        <!-- CARD 05: CONTACT -->
-        <article class="stack-card far-back" data-index="4">
+        <!-- CARD 06: CONTACT -->
+        <article class="stack-card far-back" data-index="5">
           <div class="h-full flex flex-col justify-between">
             <div>
               <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border-[1.5px] border-rose-500/30 text-rose-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
                 <i data-lucide="mail" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
-                <span>Kartu 05 — Contact</span>
+                <span>Kartu 06 — Contact</span>
               </div>
               <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Mari Terhubung</h2>
               <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-5">
-                Tertarik untuk berkolaborasi dalam proyek software, aplikasi web, multimedia, atau sekadar berdiskusi?
+                Tertarik untuk berkolaborasi dalam proyek software, aplikasi web, multimedia, diskusi kajian ilmu syariat, atau sekadar berdiskusi?
               </p>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2">
@@ -738,16 +955,16 @@
                   </div>
                 </a>
 
-                <a href="https://github.com/Al-Ghazali08" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
-                  <i data-lucide="github" class="w-4 h-4 text-indigo-400"></i>
+                <a href="https://github.com/Al-Ghazali08" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition hover:border-slate-500">
+                  <svg class="w-4 h-4 fill-current text-slate-200" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                   <div>
                     <div class="text-[11px] font-semibold text-white">GitHub</div>
                     <div class="text-[9px] text-slate-400">Al-Ghazali08</div>
                   </div>
                 </a>
 
-                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
-                  <i data-lucide="instagram" class="w-4 h-4 text-pink-400"></i>
+                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition hover:border-pink-500/50">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24"><radialGradient id="ig-grad-contact" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient><path fill="url(#ig-grad-contact)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                   <div>
                     <div class="text-[11px] font-semibold text-white">Instagram</div>
                     <div class="text-[9px] text-slate-400">@hanfghzl_</div>
@@ -761,7 +978,7 @@
                 <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
               </button>
               <button onclick="scrollToHero()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
-                <span>Ke Atas (Hero)</span>
+                <span>Kembali Ke Home</span>
                 <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
               </button>
             </div>
@@ -788,7 +1005,6 @@
 
   <!-- Interactive Scripts -->
   <script>
-    // Inisialisasi ikon dibuat aman jika CDN ikon gagal dimuat.
     function refreshIcons() {
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
         window.lucide.createIcons();
@@ -825,7 +1041,6 @@
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.then === 'function') {
         playPromise.catch(() => {
-          // Browser dapat menolak pemutaran otomatis; tombol tetap bisa digunakan.
           syncAudioUI();
         });
       }
@@ -840,8 +1055,6 @@
       }
     }
 
-    // Klik pertama mencoba memutar backsound, kecuali klik itu sendiri adalah tombol audio.
-    // Ini mencegah tombol audio menjalankan play() dan pause() sekaligus akibat bubbling.
     document.addEventListener('click', (event) => {
       if (hasInteracted) return;
       hasInteracted = true;
@@ -1012,8 +1225,6 @@
       });
     }
 
-    // Durasi ini disamakan dengan animasi CSS sendBack (0.65 detik).
-    // Satu kunci bersama mencegah klik cepat membuat beberapa transisi saling tumpang tindih.
     const CARD_TRANSITION_MS = 650;
     let isCardTransitioning = false;
     let cardTransitionTimer = null;
@@ -1070,6 +1281,181 @@
 
     initDots();
     updateCardStack();
+
+    // ==================== 4. LANYARD PHYSICS (KHUSUS DESKTOP / PC) ====================
+    let isLanyardActive = false;
+    let physicsEngine = null;
+    let cardBody = null;
+    let anchorConstraint = null;
+    let renderAnimFrame = null;
+
+    function getAnchorX() {
+      return Math.min(window.innerWidth - 180, window.innerWidth * 0.82);
+    }
+
+    function initLanyardPhysics() {
+      const canvasElem = document.getElementById('lanyard-canvas');
+      const cardDom = document.getElementById('lanyard-card-dom');
+
+      if (!window.Matter) return;
+
+      const { Engine, Bodies, Composite, Constraint, Mouse, MouseConstraint } = Matter;
+
+      if (physicsEngine) {
+        Engine.clear(physicsEngine);
+      }
+
+      physicsEngine = Engine.create({ gravity: { x: 0, y: 1.8 } });
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvasElem.width = width;
+      canvasElem.height = height;
+
+      const canvasCtx = canvasElem.getContext('2d');
+      const anchorX = getAnchorX();
+      const anchorY = -20;
+
+      cardBody = Bodies.rectangle(anchorX, 180, 220, 340, {
+        chamfer: { radius: 20 },
+        frictionAir: 0.015,
+        restitution: 0.3,
+        density: 0.004
+      });
+
+      anchorConstraint = Constraint.create({
+        pointA: { x: anchorX, y: anchorY },
+        bodyB: cardBody,
+        pointB: { x: 0, y: -160 },
+        stiffness: 0.03,
+        damping: 0.04,
+        length: 220
+      });
+
+      const mouse = Mouse.create(canvasElem);
+
+      canvasElem.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        window.scrollBy({
+          top: e.deltaY * 0.8,
+          behavior: 'smooth'
+        });
+      }, { passive: false });
+
+      const mouseConstraint = MouseConstraint.create(physicsEngine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.15,
+          damping: 0.05,
+          render: { visible: false }
+        }
+      });
+
+      Composite.add(physicsEngine.world, [cardBody, anchorConstraint, mouseConstraint]);
+
+      function renderLoop() {
+        if (!isLanyardActive) return;
+
+        Engine.update(physicsEngine, 1000 / 60);
+
+        canvasCtx.clearRect(0, 0, canvasElem.width, canvasElem.height);
+        
+        // Tali Gantungan
+        canvasCtx.beginPath();
+        canvasCtx.moveTo(anchorConstraint.pointA.x, anchorConstraint.pointA.y);
+        
+        const cos = Math.cos(cardBody.angle);
+        const sin = Math.sin(cardBody.angle);
+        const cardTopX = cardBody.position.x + (0 * cos - (-160) * sin);
+        const cardTopY = cardBody.position.y + (0 * sin + (-160) * cos);
+
+        canvasCtx.lineTo(cardTopX, cardTopY);
+        canvasCtx.strokeStyle = '#6366f1';
+        canvasCtx.lineWidth = 3.5;
+        canvasCtx.stroke();
+
+        // Posisi DOM Kartu
+        const x = cardBody.position.x - 110;
+        const y = cardBody.position.y - 170;
+        const angle = cardBody.angle;
+
+        cardDom.style.transform = `translate(${x}px, ${y}px) rotate(${angle}rad)`;
+
+        renderAnimFrame = requestAnimationFrame(renderLoop);
+      }
+
+      renderLoop();
+    }
+
+    function toggleLanyard(show) {
+      // HANYA AKTIFKAN LANYARD JIKA DI LAYAR DESKTOP / PC (WIDTH >= 640px)
+      if (window.innerWidth < 640) return;
+
+      const container = document.getElementById('lanyard-container');
+
+      if (show) {
+        isLanyardActive = true;
+        container.classList.add('active');
+
+        if (!physicsEngine) {
+          initLanyardPhysics();
+        } else if (cardBody && anchorConstraint) {
+          const targetX = getAnchorX();
+          anchorConstraint.pointA.x = targetX;
+          
+          Matter.Body.setPosition(cardBody, { x: targetX, y: 180 });
+          Matter.Body.setVelocity(cardBody, { x: (Math.random() - 0.5) * 3, y: 5 });
+          Matter.Body.setAngularVelocity(cardBody, (Math.random() - 0.5) * 0.1);
+          
+          if (renderAnimFrame) cancelAnimationFrame(renderAnimFrame);
+          initLanyardPhysics();
+        }
+      } else {
+        isLanyardActive = false;
+        container.classList.remove('active');
+        
+        if (renderAnimFrame) {
+          cancelAnimationFrame(renderAnimFrame);
+          renderAnimFrame = null;
+        }
+      }
+    }
+
+    // SCROLL FADE SMOOTH
+    window.addEventListener('scroll', () => {
+      const container = document.getElementById('lanyard-container');
+      if (!isLanyardActive || !container) return;
+
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 0.35;
+
+      if (scrollY > 0) {
+        const progress = Math.min(scrollY / threshold, 1);
+        container.style.opacity = (1 - progress).toString();
+
+        if (progress >= 1) {
+          toggleLanyard(false);
+          container.style.opacity = '';
+        }
+      } else {
+        container.style.opacity = '1';
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 640 && isLanyardActive) {
+        toggleLanyard(false);
+      }
+      const canvasElem = document.getElementById('lanyard-canvas');
+      if (canvasElem) {
+        canvasElem.width = window.innerWidth;
+        canvasElem.height = window.innerHeight;
+      }
+      if (anchorConstraint) {
+        anchorConstraint.pointA.x = getAnchorX();
+      }
+    });
   </script>
 </body>
 </html>
