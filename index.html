@@ -40,7 +40,7 @@
     /* HERO REVEAL ANIMATIONS */
     .reveal-item {
       opacity: 0;
-      transform: translateY(30px) scale(0.96);
+      transform: translateY(20px) scale(0.96);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -74,17 +74,12 @@
       box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     }
 
-    .nav-btn:active {
-      transform: translateY(0) scale(0.96);
-    }
-
     .btn-hero-primary {
       position: relative;
       background: #4f46e5;
       color: #ffffff;
       border: 1.5px solid #818cf8;
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5),
-                  0 0 15px rgba(129, 140, 248, 0.3);
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
     }
@@ -92,14 +87,7 @@
     .btn-hero-primary:hover {
       background: #6366f1;
       border-color: #a5b4fc;
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 16px 32px -5px rgba(99, 102, 241, 0.65),
-                  0 0 25px rgba(165, 180, 252, 0.45);
-    }
-
-    .btn-hero-primary:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.5);
+      transform: translateY(-2px);
     }
 
     .btn-hero-secondary {
@@ -107,8 +95,6 @@
       background: #0f172a;
       color: #ffffff;
       border: 1.5px solid #6366f1;
-      box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.7),
-                  0 0 12px rgba(99, 102, 241, 0.2);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
     }
@@ -116,15 +102,7 @@
     .btn-hero-secondary:hover {
       background: #1e293b;
       border-color: #818cf8;
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.8),
-                  0 0 20px rgba(129, 140, 248, 0.35);
-      color: #ffffff;
-    }
-
-    .btn-hero-secondary:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
     }
 
     .btn-card-action {
@@ -140,19 +118,10 @@
       box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
     }
 
-    .btn-card-action:active {
-      transform: translateY(0) scale(0.97);
-    }
-
     /* CHIP TAG HOVER EFFECTS */
     .chip-interactive {
       border: 1.5px solid rgba(255, 255, 255, 0.15);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .chip-interactive:hover {
-      transform: translateY(-3px) scale(1.05);
-      border-color: #6366f1;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
     }
 
     /* SECTION 1: HERO CONTAINER */
@@ -164,6 +133,8 @@
       align-items: center;
       position: relative;
       z-index: 10;
+      padding-top: 5rem;
+      padding-bottom: 3rem;
     }
 
     /* SECTION 2: CARD STACK VIEWPORT */
@@ -175,8 +146,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      padding-top: 4.5rem;
+      padding-bottom: 5rem;
     }
 
     /* Container Perspektif 3D */
@@ -184,14 +155,20 @@
       perspective: 1200px;
       position: relative;
       width: 100%;
-      height: 620px;
+      height: 520px;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transform: translateY(80px) scale(0.92);
+      transform: translateY(40px) scale(0.95);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .card-stack-viewport {
+        height: 580px;
+      }
     }
 
     .card-stack-viewport.is-visible {
@@ -203,23 +180,29 @@
     /* Base Styling untuk Setiap Kartu */
     .stack-card {
       position: absolute;
-      width: min(92%, 850px);
-      height: 580px;
-      background: rgba(15, 21, 35, 0.92);
+      width: min(94%, 850px);
+      height: 100%;
+      background: rgba(15, 21, 35, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
-      border-radius: 28px;
-      padding: 2.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85),
-                  0 0 35px rgba(99, 102, 241, 0.08);
+      border-radius: 20px;
+      padding: 1.25rem;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.85);
       transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.65s ease, border-color 0.3s ease;
       transform-origin: center bottom;
       overflow-y: auto;
     }
 
+    @media (min-width: 640px) {
+      .stack-card {
+        border-radius: 28px;
+        padding: 2.25rem;
+      }
+    }
+
     .stack-card::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
     .stack-card::-webkit-scrollbar-thumb {
       background: #334155;
@@ -233,13 +216,12 @@
       opacity: 1;
       pointer-events: auto;
       border-color: rgba(99, 102, 241, 0.5);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75),
-                  0 0 45px rgba(99, 102, 241, 0.22);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75), 0 0 30px rgba(99, 102, 241, 0.2);
     }
 
     .stack-card.next-1 {
       z-index: 40;
-      transform: translateY(-28px) scale(0.94) translateZ(-40px);
+      transform: translateY(-20px) scale(0.95) translateZ(-40px);
       opacity: 0.65;
       pointer-events: none;
       filter: brightness(0.7);
@@ -247,7 +229,7 @@
 
     .stack-card.next-2 {
       z-index: 30;
-      transform: translateY(-56px) scale(0.88) translateZ(-80px);
+      transform: translateY(-40px) scale(0.9) translateZ(-80px);
       opacity: 0.35;
       pointer-events: none;
       filter: brightness(0.5);
@@ -255,7 +237,7 @@
 
     .stack-card.far-back {
       z-index: 10;
-      transform: translateY(-80px) scale(0.82) translateZ(-120px);
+      transform: translateY(-60px) scale(0.85) translateZ(-120px);
       opacity: 0;
       pointer-events: none;
     }
@@ -271,12 +253,12 @@
         z-index: 60;
       }
       40% {
-        transform: translateY(-130px) scale(0.95) rotate(-5deg);
+        transform: translateY(-110px) scale(0.95) rotate(-4deg);
         opacity: 0.8;
         z-index: 60;
       }
       100% {
-        transform: translateY(-80px) scale(0.82) translateZ(-120px);
+        transform: translateY(-60px) scale(0.85) translateZ(-120px);
         opacity: 0;
         z-index: 10;
       }
@@ -294,7 +276,7 @@
 
     #card-01-profile {
       opacity: 0;
-      transform: translateY(-15px) scale(0.95);
+      transform: translateY(-10px) scale(0.95);
       transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
     #card-01-profile.is-visible {
@@ -305,15 +287,15 @@
     /* ANIMASI EQUALIZER PADA CONTROL AUDIO FLOATING */
     .bar {
       display: inline-block;
-      width: 2.5px;
+      width: 2px;
       background-color: #818cf8;
       border-radius: 2px;
       animation: soundWave 1.2s ease-in-out infinite alternate;
     }
-    .bar:nth-child(1) { height: 8px; animation-delay: 0.1s; }
-    .bar:nth-child(2) { height: 16px; animation-delay: 0.3s; }
-    .bar:nth-child(3) { height: 10px; animation-delay: 0.2s; }
-    .bar:nth-child(4) { height: 14px; animation-delay: 0.4s; }
+    .bar:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+    .bar:nth-child(2) { height: 12px; animation-delay: 0.3s; }
+    .bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+    .bar:nth-child(4) { height: 10px; animation-delay: 0.4s; }
 
     .is-muted .bar {
       animation: none !important;
@@ -333,52 +315,46 @@
   <canvas id="particle-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
 
   <!-- Ambient Background Orbs -->
-  <div class="glow-bg w-[500px] h-[500px] bg-indigo-600/15 top-10 -left-40"></div>
-  <div class="glow-bg w-[500px] h-[500px] bg-cyan-500/10 bottom-20 -right-40"></div>
+  <div class="glow-bg w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-indigo-600/15 top-10 -left-40"></div>
+  <div class="glow-bg w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-cyan-500/10 bottom-20 -right-40"></div>
 
   <!-- Audio Element untuk Backsound "Something Just Like This" -->
   <audio id="bg-audio" loop preload="auto">
     <source src="backsound.mp3" type="audio/mpeg">
     <source src="something-just-like-this.mp3" type="audio/mpeg">
-    <!-- Stream Fallback instrumen jika file lokal belum dipasang -->
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Widget Control Audio Floating (Pojok Kanan Bawah) -->
-  <div class="fixed bottom-6 right-6 z-50">
-    <button id="audio-toggle-btn" onclick="toggleAudio()" class="is-muted flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-slate-900/85 backdrop-blur-md border-[1.5px] border-slate-700/80 hover:border-indigo-500/80 text-white shadow-2xl transition-all hover:scale-105 active:scale-95 group" title="Nyalakan/Matikan Backsound">
-      <div class="flex items-end gap-0.5 h-4 w-4 justify-center">
+  <!-- Widget Control Audio Floating (Diubah posisinya agar tidak bentrok di HP) -->
+  <div class="fixed top-4 right-4 sm:top-auto sm:bottom-6 sm:right-6 z-50">
+    <button id="audio-toggle-btn" onclick="toggleAudio()" class="is-muted flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border-[1.5px] border-slate-700/80 hover:border-indigo-500/80 text-white shadow-xl transition-all active:scale-95 group" title="Nyalakan/Matikan Backsound">
+      <div class="flex items-end gap-0.5 h-3.5 w-3.5 justify-center">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
-      <span id="audio-status-text" class="text-[11px] font-mono text-slate-300 group-hover:text-white transition">Something Just Like This</span>
-      <i id="audio-icon" data-lucide="volume-x" class="w-4 h-4 text-slate-400 group-hover:text-indigo-400 transition"></i>
+      <span id="audio-status-text" class="text-[10px] sm:text-[11px] font-mono text-slate-300 group-hover:text-white transition">Something Just Like This</span>
+      <i id="audio-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition"></i>
     </button>
   </div>
 
   <!-- Header Floating -->
-  <header class="fixed top-0 left-0 w-full z-50 p-6">
-    <div class="max-w-5xl mx-auto flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-[1.5px] border-slate-700/80 rounded-full px-5 py-2.5 shadow-xl min-h-[58px]">
+  <header class="fixed top-0 left-0 w-full z-40 p-3 sm:p-6 pointer-events-none">
+    <div class="max-w-5xl mx-auto flex items-center justify-between bg-slate-900/85 backdrop-blur-md border-[1.5px] border-slate-700/80 rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2.5 shadow-xl pointer-events-auto min-h-[46px] sm:min-h-[58px]">
       
-      <!-- KIRI: Foto Profil + Nama (Dapat Bertransisi Masuk ke Card 01) -->
-      <div id="profile-identity" class="flex items-center gap-3 cursor-pointer group" onclick="scrollToHero()">
-        <div class="relative w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-500/80 shadow-md shadow-indigo-500/20 group-hover:border-indigo-400 transition">
+      <!-- KIRI: Foto Profil + Nama -->
+      <div id="profile-identity" class="flex items-center gap-2.5 cursor-pointer group" onclick="scrollToHero()">
+        <div class="relative w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-indigo-500/80 shadow-md">
           <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover">
         </div>
         <div class="flex flex-col">
-          <span class="text-xs font-bold text-white tracking-wide group-hover:text-indigo-300 transition">Abdul Hanif Al Ghazali</span>
-          <span class="text-[10px] font-mono text-slate-400">Teknik Informatika Multimedia</span>
+          <span class="text-[11px] sm:text-xs font-bold text-white tracking-wide group-hover:text-indigo-300 transition">Abdul Hanif Al Ghazali</span>
+          <span class="text-[8px] sm:text-[10px] font-mono text-slate-400">Teknik Informatika Multimedia</span>
         </div>
       </div>
 
-      <!-- Placeholder kosong saat profil bertransisi turun ke Card 01 -->
-      <div id="profile-placeholder" class="hidden text-xs font-mono text-slate-500 tracking-wider">
-        [ Profil Aktif di Kartu 01 ]
-      </div>
-
-      <!-- TENGAH/KANAN: Navigasi Utama -->
+      <!-- TENGAH/KANAN: Navigasi Utama (Hanya Tampil di Desktop/Tablet) -->
       <nav class="hidden lg:flex items-center gap-1.5" id="nav-menu">
         <button id="nav-item-hero" onclick="scrollToHero()" class="nav-btn active-nav px-3.5 py-1.5 rounded-full text-xs font-semibold">Home</button>
         <button id="nav-item-0" onclick="jumpToStackCard(0)" class="nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium">About</button>
@@ -392,43 +368,43 @@
   </header>
 
   <!-- ==================== PAGE 1: HERO SECTION ==================== -->
-  <section id="hero" class="hero-section text-center px-6 pt-16">
-    <div class="max-w-3xl mx-auto space-y-6">
+  <section id="hero" class="hero-section text-center px-4 sm:px-6">
+    <div class="max-w-3xl mx-auto space-y-4 sm:space-y-6">
       
       <!-- Status Badge -->
-      <div class="reveal-item inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border-[1.5px] border-slate-700 text-xs font-mono text-slate-200 shadow-md">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <div class="reveal-item inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border-[1.5px] border-slate-700 text-[10px] sm:text-xs font-mono text-slate-200 shadow-md">
+        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>Terbuka untuk Kolaborasi & Proyek</span>
       </div>
 
       <!-- Main Headline -->
-      <h1 class="reveal-item text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+      <h1 class="reveal-item text-2xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
         Halo, aku Abdul Hanif Al Ghazali.<br/>
         Membangun Sistem & Media Interaktif.
       </h1>
 
       <!-- Sub-headline -->
-      <p class="reveal-item text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+      <p class="reveal-item text-slate-300 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed px-2">
         Mahasiswa <span class="text-white font-semibold">Teknik Informatika Multimedia</span> di Samarinda, Kalimantan Timur. Berfokus pada integrasi logika sistem, pengembangan aplikasi web interaktif, <i>Computer Vision</i>, serta pengolahan media digital.
       </p>
 
       <!-- Mini Tech Stack / Domain Chips -->
-      <div class="reveal-item flex flex-wrap justify-center gap-2.5 pt-1">
-        <span class="chip-interactive px-3.5 py-1.5 rounded-xl bg-slate-900/90 text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Full-Stack Dev</span>
-        <span class="chip-interactive px-3.5 py-1.5 rounded-xl bg-slate-900/90 text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Interactive Multimedia</span>
-        <span class="chip-interactive px-3.5 py-1.5 rounded-xl bg-slate-900/90 text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Computer Vision</span>
-        <span class="chip-interactive px-3.5 py-1.5 rounded-xl bg-slate-900/90 text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Network & Simulation</span>
+      <div class="reveal-item flex flex-wrap justify-center gap-1.5 sm:gap-2.5 pt-1">
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Full-Stack Dev</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Interactive Multimedia</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Computer Vision</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Network & Simulation</span>
       </div>
 
       <!-- Action Buttons di Baris Hero -->
-      <div class="reveal-item pt-5 flex flex-wrap justify-center items-center gap-4">
-        <button onclick="scrollToStack()" class="btn-hero-primary px-8 py-4 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-3 group">
+      <div class="reveal-item pt-3 sm:pt-5 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
+        <button onclick="scrollToStack()" class="btn-hero-primary w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 group">
           <span>Jelajahi Kartu Portofolio</span>
           <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
         </button>
         
-        <button onclick="jumpToStackCard(1)" class="btn-hero-secondary px-8 py-4 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-3 group">
-          <i data-lucide="file-text" class="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform"></i>
+        <button onclick="jumpToStackCard(1)" class="btn-hero-secondary w-full sm:w-auto px-6 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 group">
+          <i data-lucide="file-text" class="w-4 h-4 text-indigo-400"></i>
           <span>Lihat CV & Skill</span>
         </button>
       </div>
@@ -436,8 +412,8 @@
     </div>
 
     <!-- Indicator Scroll ke Bawah -->
-    <div class="absolute bottom-8 flex flex-col items-center gap-2 cursor-pointer opacity-75 hover:opacity-100 transition" onclick="scrollToStack()">
-      <span class="text-[11px] font-mono text-slate-400 uppercase tracking-widest">Scroll Down To Open Cards</span>
+    <div class="mt-8 flex flex-col items-center gap-1 cursor-pointer opacity-75 hover:opacity-100 transition" onclick="scrollToStack()">
+      <span class="text-[9px] sm:text-[11px] font-mono text-slate-400 uppercase tracking-widest">Scroll Down To Open Cards</span>
       <i data-lucide="chevron-down" class="w-4 h-4 text-indigo-400 animate-bounce"></i>
     </div>
   </section>
@@ -445,7 +421,7 @@
 
   <!-- ==================== PAGE 2: CARD STACK SECTION ==================== -->
   <section id="stack-container" class="stack-section w-full">
-    <div class="w-full max-w-5xl mx-auto px-4">
+    <div class="w-full max-w-5xl mx-auto px-3 sm:px-4">
       
       <!-- Viewport Tumpukan Kartu -->
       <div id="card-viewport" class="card-stack-viewport">
@@ -454,50 +430,50 @@
         <article class="stack-card active" data-index="0">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between mb-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border-[1.5px] border-cyan-500/30 text-cyan-400 text-xs font-mono">
-                  <i data-lucide="user" class="w-3.5 h-3.5"></i>
+              <div class="flex items-center justify-between mb-3 sm:mb-4">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border-[1.5px] border-cyan-500/30 text-cyan-400 text-[10px] sm:text-xs font-mono">
+                  <i data-lucide="user" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                   <span>Kartu 01 — About Me</span>
                 </div>
 
                 <!-- TARGET TRANSISI FOTO PROFIL & NAMA DI KARTU 01 -->
-                <div id="card-01-profile" class="flex items-center gap-3 bg-slate-900/90 border border-slate-700/80 rounded-full px-3 py-1.5 shadow-md">
-                  <div class="relative w-8 h-8 rounded-full overflow-hidden border-2 border-indigo-500">
+                <div id="card-01-profile" class="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 rounded-full px-2.5 py-1 shadow-md">
+                  <div class="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden border-2 border-indigo-500">
                     <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover">
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-xs font-bold text-white tracking-wide">Abdul Hanif Al Ghazali</span>
-                    <span class="text-[9px] font-mono text-slate-400">Teknik Informatika Multimedia</span>
+                    <span class="text-[10px] sm:text-xs font-bold text-white tracking-wide">Abdul Hanif Al Ghazali</span>
+                    <span class="text-[8px] sm:text-[9px] font-mono text-slate-400">TIM POLNES</span>
                   </div>
                 </div>
               </div>
 
-              <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Tentang Diri Saya</h2>
-              <p class="text-slate-300 text-sm leading-relaxed mb-5">
+              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">Tentang Diri Saya</h2>
+              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-5">
                 "Saya adalah seorang mahasiswa Teknik Informatika Multimedia yang berfokus pada integrasi logika sistem, pengembangan aplikasi web interaktif, computer vision, serta pengolahan media digital."
               </p>
               
-              <div class="space-y-3.5 mb-4">
-                <div class="p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/50 transition">
-                  <h3 class="text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1 flex items-center gap-2">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Lokasi & Domisili
+              <div class="space-y-2 sm:space-y-3.5 mb-3">
+                <div class="p-3 sm:p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/50 transition">
+                  <h3 class="text-indigo-400 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
+                    <i data-lucide="map-pin" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> Lokasi & Domisili
                   </h3>
-                  <p class="text-xs text-slate-300 leading-relaxed">Samarinda, Kalimantan Timur, Indonesia</p>
+                  <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">Samarinda, Kalimantan Timur, Indonesia</p>
                 </div>
-                <div class="p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-cyan-500/50 transition">
-                  <h3 class="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-1 flex items-center gap-2">
-                    <i data-lucide="briefcase" class="w-3.5 h-3.5"></i> Peran & Status Saat Ini
+                <div class="p-3 sm:p-4 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-cyan-500/50 transition">
+                  <h3 class="text-cyan-400 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
+                    <i data-lucide="briefcase" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> Peran & Status
                   </h3>
-                  <p class="text-xs text-slate-300 leading-relaxed">Mahasiswa Teknik Informatika Multimedia / Full-Stack & Multimedia Developer — Terbuka untuk Kolaborasi Proyek.</p>
+                  <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">Mahasiswa TIM / Full-Stack & Multimedia Developer — Terbuka untuk Kolaborasi Proyek.</p>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-4">
-              <span class="text-xs text-slate-500 font-mono">01 / 05</span>
-              <button onclick="nextCard()" class="btn-card-action px-4 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-mono flex items-center gap-2">
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-4">
+              <span class="text-[10px] sm:text-xs text-slate-500 font-mono">01 / 05</span>
+              <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Lanjut ke CV & Resume</span>
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -507,86 +483,78 @@
         <article class="stack-card next-1" data-index="1">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border-[1.5px] border-indigo-500/30 text-indigo-400 text-xs font-mono mb-4">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border-[1.5px] border-indigo-500/30 text-indigo-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+                <i data-lucide="file-text" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 02 — CV & Resume</span>
               </div>
               
-              <div class="flex items-center justify-between mb-3">
-                <h2 class="text-2xl sm:text-3xl font-bold text-white">Kurikulum Vitae</h2>
-                <button onclick="jumpToStackCard(4)" class="btn-hero-primary px-3.5 py-1.5 rounded-xl text-white text-xs font-semibold flex items-center gap-2">
-                  <i data-lucide="mail" class="w-3.5 h-3.5"></i> Contact Me
+              <div class="flex items-center justify-between mb-2 sm:mb-3">
+                <h2 class="text-xl sm:text-3xl font-bold text-white">Kurikulum Vitae</h2>
+                <button onclick="jumpToStackCard(4)" class="btn-hero-primary px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl text-white text-[10px] sm:text-xs font-semibold flex items-center gap-1.5">
+                  <i data-lucide="mail" class="w-3 h-3"></i> Contact Me
                 </button>
               </div>
 
               <!-- Tech Stack & Tools -->
-              <div class="mb-4">
-                <h3 class="text-xs font-mono text-slate-400 mb-2">Tech Stack & Tools:</h3>
-                <div class="flex flex-wrap gap-1.5">
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">Python</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">JavaScript</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">HTML5 / CSS3</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">C++</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">Java</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">Tailwind CSS</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">OpenCV & MediaPipe</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">NumPy</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">SUMO & GNS3</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">DaVinci Resolve</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">Figma & Affinity</span>
-                  <span class="chip-interactive px-2.5 py-0.5 rounded-md bg-slate-800/90 text-[11px] font-mono text-slate-200">CapCut & Canva</span>
+              <div class="mb-3">
+                <h3 class="text-[10px] sm:text-xs font-mono text-slate-400 mb-1.5">Tech Stack & Tools:</h3>
+                <div class="flex flex-wrap gap-1">
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Python</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">JavaScript</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">HTML5 / CSS3</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">C++</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Java</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Tailwind</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">OpenCV & MediaPipe</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">SUMO & GNS3</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">DaVinci Resolve</span>
+                  <span class="chip-interactive px-2 py-0.5 rounded bg-slate-800/90 text-[10px] font-mono text-slate-200">Figma & Affinity</span>
                 </div>
               </div>
 
-              <!-- Riwayat Pendidikan Lengkap -->
-              <div class="space-y-2 mb-4">
-                <h3 class="text-xs font-mono text-indigo-400 font-semibold uppercase tracking-wider">Riwayat Pendidikan:</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <!-- Riwayat Pendidikan -->
+              <div class="space-y-1.5 mb-3">
+                <h3 class="text-[10px] sm:text-xs font-mono text-indigo-400 font-semibold uppercase tracking-wider">Pendidikan:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
                   <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-indigo-500">
-                    <span class="font-bold text-white block">Politeknik Negeri Samarinda</span>
-                    <span class="text-[10px] text-slate-400 block">D4 Teknik Informatika Multimedia (2025–2026)</span>
+                    <span class="font-bold text-white text-[11px] block">Politeknik Negeri Samarinda</span>
+                    <span class="text-[9px] text-slate-400 block">D4 Teknik Informatika Multimedia (2025–2026)</span>
                   </div>
                   <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-blue-500">
-                    <span class="font-bold text-white block">MAS Al Furqan Paser</span>
-                    <span class="text-[10px] text-slate-400 block">Jurusan IPS (2022–2025)</span>
+                    <span class="font-bold text-white text-[11px] block">MAS Al Furqan Paser</span>
+                    <span class="text-[9px] text-slate-400 block">Jurusan IPS (2022–2025)</span>
                   </div>
                   <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-cyan-500">
-                    <span class="font-bold text-white block">MTsS Al Furqan Paser</span>
-                    <span class="text-[10px] text-slate-400 block">Pendidikan Menengah Pertama (2019–2022)</span>
+                    <span class="font-bold text-white text-[11px] block">MTsS Al Furqan Paser</span>
+                    <span class="text-[9px] text-slate-400 block">SMP / MTs (2019–2022)</span>
                   </div>
                   <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-emerald-500">
-                    <span class="font-bold text-white block">MIS Trubus Iman</span>
-                    <span class="text-[10px] text-slate-400 block">Pendidikan Dasar (2013–2019)</span>
+                    <span class="font-bold text-white text-[11px] block">MIS Trubus Iman</span>
+                    <span class="text-[9px] text-slate-400 block">SD / MI (2013–2019)</span>
                   </div>
-                </div>
-                <div class="p-2 bg-slate-900/60 rounded-lg border border-slate-800 border-l-2 border-l-teal-500 text-xs">
-                  <span class="font-bold text-white block">RA Trubus Iman</span>
-                  <span class="text-[10px] text-slate-400 block">Prasekolah / TK (2011–2013)</span>
                 </div>
               </div>
 
               <!-- Pengalaman -->
-              <div class="space-y-1.5">
-                <h3 class="text-xs font-mono text-cyan-400 font-semibold uppercase tracking-wider">Pengalaman & Organisasi:</h3>
-                <div class="p-2.5 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
-                  <span class="font-semibold text-white">Ketua Bagian Sarpras — ORSAF (Organisasi Santri Al Furqan)</span>
-                  <p class="text-[11px] text-slate-400">Ketua divisi Sarana dan Prasarana di Pondok Pesantren Al Furqan Paser.</p>
+              <div class="space-y-1">
+                <h3 class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold uppercase tracking-wider">Pengalaman:</h3>
+                <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
+                  <span class="font-semibold text-white text-[11px]">Ketua Sarpras — ORSAF Paser</span>
                 </div>
-                <div class="p-2.5 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
-                  <span class="font-semibold text-white">Pemateri Sosialisasi ke SMPN 36 Samarinda</span>
-                  <p class="text-[11px] text-slate-400">Mengajar dan membimbing praktikum gesture landmark tracking menggunakan Python, OpenCV, dan MediaPipe.</p>
+                <div class="p-2 rounded-lg bg-slate-900/70 border border-slate-800 text-xs">
+                  <span class="font-semibold text-white text-[11px]">Pemateri Sosialisasi SMPN 36 Samarinda</span>
                 </div>
               </div>
 
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-3">
-              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-xs font-mono flex items-center gap-1 transition cursor-pointer">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i> Kembali
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-3">
+              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
               </button>
-              <button onclick="nextCard()" class="btn-card-action px-4 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-mono flex items-center gap-2">
+              <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Lanjut ke Projects</span>
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -596,85 +564,78 @@
         <article class="stack-card next-2" data-index="2">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border-[1.5px] border-emerald-500/30 text-emerald-400 text-xs font-mono mb-4">
-                <i data-lucide="code" class="w-3.5 h-3.5"></i>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border-[1.5px] border-emerald-500/30 text-emerald-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+                <i data-lucide="code" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 03 — Portfolio Projects</span>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Proyek & Aplikasi</h2>
-              <p class="text-slate-300 text-xs leading-relaxed mb-4">
-                Koleksi aplikasi game, eksperimen tracking computer vision, serta proyek website live interaktif.
-              </p>
+              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Proyek & Aplikasi</h2>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                 <!-- Project 1: Boxman -->
-                <div class="p-3.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/60 transition group flex flex-col justify-between">
+                <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
-                      <h3 class="text-white text-xs font-bold group-hover:text-indigo-300 transition">1. Boxman (GitHub Repo)</h3>
-                      <span class="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">Gesture Control</span>
+                      <h3 class="text-white text-[11px] sm:text-xs font-bold">1. Boxman (GitHub Repo)</h3>
+                      <span class="text-[8px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Gesture</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed mb-3">Game dengan sistem deteksi dan pelacakan gestur tangan menggunakan MediaPipe & OpenCV untuk kontrol tanpa sentuh.</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Game deteksi gestur tangan MediaPipe & OpenCV.</p>
                   </div>
-                  <a href="https://github.com/Al-Ghazali08/boxman" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition">
-                    <span>Lihat Repository Codingan</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <a href="https://github.com/Al-Ghazali08/boxman" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-400">
+                    <span>Lihat Repository</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
 
                 <!-- Project 2: Song Clash -->
-                <div class="p-3.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/60 transition group flex flex-col justify-between">
+                <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
-                      <h3 class="text-white text-xs font-bold group-hover:text-indigo-300 transition">2. Song Clash</h3>
-                      <span class="text-[9px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30">Web Game</span>
+                      <h3 class="text-white text-[11px] sm:text-xs font-bold">2. Song Clash</h3>
+                      <span class="text-[8px] font-mono text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded">Web Game</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed mb-3">Website interaktif untuk memainkan game persaingan antar penyanyi dan lagu favorit.</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website game persaingan lagu & penyanyi.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/songclash/" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-cyan-400 hover:text-cyan-300 transition">
-                    <span>Buka Web Song Clash</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <a href="https://al-ghazali08.github.io/songclash/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-cyan-400">
+                    <span>Buka Web Song Clash</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
 
                 <!-- Project 3: Undangan -->
-                <div class="p-3.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/60 transition group flex flex-col justify-between">
+                <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
-                      <h3 class="text-white text-xs font-bold group-hover:text-indigo-300 transition">3. Web Undangan Digital</h3>
-                      <span class="text-[9px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">Web Design</span>
+                      <h3 class="text-white text-[11px] sm:text-xs font-bold">3. Web Undangan Digital</h3>
+                      <span class="text-[8px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">Web Design</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed mb-3">Website undangan digital sederhana yang dirancang untuk eksplorasi pembuatan web undangan.</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website undangan digital interaktif.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/undangan-ubaid-azyyati/" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-400 hover:text-amber-300 transition">
-                    <span>Buka Web Undangan</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <a href="https://al-ghazali08.github.io/undangan-ubaid-azyyati/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400">
+                    <span>Buka Web Undangan</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
 
                 <!-- Project 4: Photobooth -->
-                <div class="p-3.5 rounded-xl bg-slate-900/80 border-[1.5px] border-slate-700 hover:border-indigo-500/60 transition group flex flex-col justify-between">
+                <div class="p-2.5 sm:p-3.5 rounded-xl bg-slate-900/80 border border-slate-700 flex flex-col justify-between">
                   <div>
                     <div class="flex items-center justify-between mb-1">
-                      <h3 class="text-white text-xs font-bold group-hover:text-indigo-300 transition">4. Photobooth Web</h3>
-                      <span class="text-[9px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/30">Interactive App</span>
+                      <h3 class="text-white text-[11px] sm:text-xs font-bold">4. Photobooth Web</h3>
+                      <span class="text-[8px] font-mono text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">Interactive</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed mb-3">Website photobooth foto dengan pilihan frame unik serta trigger pembuat frame memakai gestur tangan.</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website photobooth dengan kustom frame.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/photobooth/" target="_blank" class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-purple-400 hover:text-purple-300 transition">
-                    <span>Buka Web Photobooth</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                  <a href="https://al-ghazali08.github.io/photobooth/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-400">
+                    <span>Buka Web Photobooth</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-3">
-              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-xs font-mono flex items-center gap-1 transition cursor-pointer">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i> Kembali
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-3">
+              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
               </button>
-              <button onclick="nextCard()" class="btn-card-action px-4 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-mono flex items-center gap-2">
+              <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Lanjut ke Reels</span>
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -684,76 +645,63 @@
         <article class="stack-card far-back" data-index="3">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border-[1.5px] border-purple-500/30 text-purple-400 text-xs font-mono mb-4">
-                <i data-lucide="film" class="w-3.5 h-3.5"></i>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border-[1.5px] border-purple-500/30 text-purple-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+                <i data-lucide="film" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 04 — Video Reels</span>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Video Reels Instagram</h2>
-              <p class="text-slate-300 text-xs leading-relaxed mb-4">
-                Galeri karya video singkat dan konten kreatif Instagram Reels buatan Abdul Hanif Al Ghazali.
-              </p>
+              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Video Reels Instagram</h2>
 
               <!-- Reels Grid Links -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 max-h-[310px] overflow-y-auto pr-1">
-                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-3 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex flex-col justify-between group">
-                  <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="instagram" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-xs font-bold text-white">Instagram Reel #1</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-1">
+                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
+                    <span class="text-[11px] font-bold text-white">Instagram Reel #1</span>
                   </div>
-                  <span class="text-[10px] text-purple-300 flex items-center gap-1 font-mono">
-                    <span>Buka Reel IG</span> <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-3 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex flex-col justify-between group">
-                  <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="instagram" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-xs font-bold text-white">Instagram Reel #2</span>
+                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
+                    <span class="text-[11px] font-bold text-white">Instagram Reel #2</span>
                   </div>
-                  <span class="text-[10px] text-purple-300 flex items-center gap-1 font-mono">
-                    <span>Buka Reel IG</span> <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-3 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex flex-col justify-between group">
-                  <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="instagram" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-xs font-bold text-white">Instagram Reel #3</span>
+                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
+                    <span class="text-[11px] font-bold text-white">Instagram Reel #3</span>
                   </div>
-                  <span class="text-[10px] text-purple-300 flex items-center gap-1 font-mono">
-                    <span>Buka Reel IG</span> <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-3 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex flex-col justify-between group">
-                  <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="instagram" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-xs font-bold text-white">Instagram Reel #4</span>
+                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
+                    <span class="text-[11px] font-bold text-white">Instagram Reel #4</span>
                   </div>
-                  <span class="text-[10px] text-purple-300 flex items-center gap-1 font-mono">
-                    <span>Buka Reel IG</span> <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-3 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex flex-col justify-between group">
-                  <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="instagram" class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-xs font-bold text-white">Instagram Reel #5</span>
+                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
+                    <span class="text-[11px] font-bold text-white">Instagram Reel #5</span>
                   </div>
-                  <span class="text-[10px] text-purple-300 flex items-center gap-1 font-mono">
-                    <span>Buka Reel IG</span> <i data-lucide="external-link" class="w-3 h-3"></i>
-                  </span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-3">
-              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-xs font-mono flex items-center gap-1 transition cursor-pointer">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i> Kembali
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-3">
+              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
               </button>
-              <button onclick="nextCard()" class="btn-card-action px-4 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-mono flex items-center gap-2">
+              <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Lanjut ke Contact</span>
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -763,57 +711,57 @@
         <article class="stack-card far-back" data-index="4">
           <div class="h-full flex flex-col justify-between">
             <div>
-              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border-[1.5px] border-rose-500/30 text-rose-400 text-xs font-mono mb-4">
-                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border-[1.5px] border-rose-500/30 text-rose-400 text-[10px] sm:text-xs font-mono mb-2 sm:mb-4">
+                <i data-lucide="mail" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
                 <span>Kartu 05 — Contact</span>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Mari Terhubung</h2>
-              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-5">
-                Tertarik untuk berkolaborasi dalam proyek software, aplikasi web, multimedia, atau sekadar berdiskusi? Silakan hubungi saya melalui saluran di bawah ini.
+              <h2 class="text-xl sm:text-3xl font-bold text-white mb-2">Mari Terhubung</h2>
+              <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-5">
+                Tertarik untuk berkolaborasi dalam proyek software, aplikasi web, multimedia, atau sekadar berdiskusi?
               </p>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                <a href="mailto:hanfghzal08@gmail.com" class="p-3 rounded-xl bg-slate-900/90 border-[1.5px] border-slate-700 hover:border-indigo-500/60 flex items-center gap-3 transition group">
-                  <i data-lucide="mail" class="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform"></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-2">
+                <a href="mailto:hanfghzal08@gmail.com" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                  <i data-lucide="mail" class="w-4 h-4 text-indigo-400"></i>
                   <div>
-                    <div class="text-xs font-semibold text-white">Email</div>
-                    <div class="text-[10px] text-slate-400">hanfghzal08@gmail.com</div>
+                    <div class="text-[11px] font-semibold text-white">Email</div>
+                    <div class="text-[9px] text-slate-400">hanfghzal08@gmail.com</div>
                   </div>
                 </a>
 
-                <a href="https://wa.me/6281346170887" target="_blank" class="p-3 rounded-xl bg-slate-900/90 border-[1.5px] border-slate-700 hover:border-emerald-500/60 flex items-center gap-3 transition group">
-                  <i data-lucide="phone" class="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                <a href="https://wa.me/6281346170887" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                  <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
                   <div>
-                    <div class="text-xs font-semibold text-white">WhatsApp</div>
-                    <div class="text-[10px] text-slate-400">+62 813-4617-0887</div>
+                    <div class="text-[11px] font-semibold text-white">WhatsApp</div>
+                    <div class="text-[9px] text-slate-400">+62 813-4617-0887</div>
                   </div>
                 </a>
 
-                <a href="https://github.com/Al-Ghazali08" target="_blank" class="p-3 rounded-xl bg-slate-900/90 border-[1.5px] border-slate-700 hover:border-indigo-500/60 flex items-center gap-3 transition group">
-                  <i data-lucide="github" class="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform"></i>
+                <a href="https://github.com/Al-Ghazali08" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                  <i data-lucide="github" class="w-4 h-4 text-indigo-400"></i>
                   <div>
-                    <div class="text-xs font-semibold text-white">GitHub</div>
-                    <div class="text-[10px] text-slate-400">Al-Ghazali08</div>
+                    <div class="text-[11px] font-semibold text-white">GitHub</div>
+                    <div class="text-[9px] text-slate-400">Al-Ghazali08</div>
                   </div>
                 </a>
 
-                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" class="p-3 rounded-xl bg-slate-900/90 border-[1.5px] border-slate-700 hover:border-pink-500/60 flex items-center gap-3 transition group">
-                  <i data-lucide="instagram" class="w-5 h-5 text-pink-400 group-hover:scale-110 transition-transform"></i>
+                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                  <i data-lucide="instagram" class="w-4 h-4 text-pink-400"></i>
                   <div>
-                    <div class="text-xs font-semibold text-white">Instagram</div>
-                    <div class="text-[10px] text-slate-400">@hanfghzl_</div>
+                    <div class="text-[11px] font-semibold text-white">Instagram</div>
+                    <div class="text-[9px] text-slate-400">@hanfghzl_</div>
                   </div>
                 </a>
               </div>
             </div>
 
-            <div class="flex items-center justify-between border-t border-slate-800/80 pt-3">
-              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-xs font-mono flex items-center gap-1 transition cursor-pointer">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i> Kembali
+            <div class="flex items-center justify-between border-t border-slate-800/80 pt-2.5 sm:pt-3">
+              <button onclick="prevCard()" class="text-slate-400 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Kembali
               </button>
-              <button onclick="scrollToHero()" class="btn-card-action px-4 py-2 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 hover:text-white text-xs font-mono flex items-center gap-2">
+              <button onclick="scrollToHero()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-indigo-600/20 text-indigo-300 hover:text-white text-[10px] sm:text-xs font-mono flex items-center gap-1.5">
                 <span>Ke Atas (Hero)</span>
-                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
               </button>
             </div>
           </div>
@@ -822,15 +770,15 @@
       </div>
 
       <!-- Controls & Dots -->
-      <div class="flex items-center justify-between mt-6 max-w-3xl mx-auto px-4">
-        <button onclick="prevCard()" class="btn-card-action px-4 py-2 rounded-xl bg-slate-900/90 text-slate-200 hover:text-white text-xs font-medium flex items-center gap-2 shadow-md">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i> Prev Card
+      <div class="flex items-center justify-between mt-4 sm:mt-6 max-w-3xl mx-auto px-2">
+        <button onclick="prevCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/90 text-slate-200 hover:text-white text-[11px] sm:text-xs font-medium flex items-center gap-1.5 shadow-md">
+          <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i> Prev
         </button>
 
-        <div class="flex items-center gap-2" id="dots-container"></div>
+        <div class="flex items-center gap-1.5" id="dots-container"></div>
 
-        <button onclick="nextCard()" class="btn-card-action px-4 py-2 rounded-xl bg-slate-900/90 text-slate-200 hover:text-white text-xs font-medium flex items-center gap-2 shadow-md">
-          Next Card <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <button onclick="nextCard()" class="btn-card-action px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/90 text-slate-200 hover:text-white text-[11px] sm:text-xs font-medium flex items-center gap-1.5 shadow-md">
+          Next <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
         </button>
       </div>
 
@@ -841,13 +789,12 @@
   <script>
     lucide.createIcons();
 
-    // 0. LOGIKA BACKSOUND MUSIC (FIRST INTERACTION AUTOPLAY)
+    // 0. LOGIKA BACKSOUND MUSIC
     const audio = document.getElementById('bg-audio');
     const audioBtn = document.getElementById('audio-toggle-btn');
     const audioIcon = document.getElementById('audio-icon');
     let hasInteracted = false;
 
-    // Atur volume latar lembut (15%)
     audio.volume = 0.15;
 
     function playAudio() {
@@ -856,7 +803,7 @@
         audioIcon.setAttribute('data-lucide', 'volume-2');
         lucide.createIcons();
       }).catch(err => {
-        console.log("Autoplay ditahan oleh browser sampai ada interaksi user.", err);
+        console.log("Autoplay ditahan browser.", err);
       });
     }
 
@@ -871,7 +818,6 @@
       }
     }
 
-    // Pemicu otomatis saat pengguna melakukan klik pertama di web
     document.addEventListener('click', () => {
       if (!hasInteracted) {
         hasInteracted = true;
@@ -908,7 +854,7 @@
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.8 + 0.5;
+        this.size = Math.random() * 1.5 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.4;
         this.speedY = (Math.random() - 0.5) * 0.4;
         this.opacity = Math.random() * 0.5 + 0.2;
@@ -928,7 +874,7 @@
       }
     }
 
-    for (let i = 0; i < 45; i++) particles.push(new Particle());
+    for (let i = 0; i < 35; i++) particles.push(new Particle());
 
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -954,7 +900,6 @@
     function syncProfileLocation() {
       const isCardSectionVisible = cardViewport.classList.contains('is-visible');
 
-      // Jika berada di Card Stack & Card 01 sedang aktif (index 0)
       if (isCardSectionVisible && currentIndex === 0) {
         headerProfile.classList.add('is-hidden');
         card01Profile.classList.add('is-visible');
@@ -1000,7 +945,7 @@
       dotsContainer.innerHTML = '';
       cards.forEach((_, idx) => {
         const dot = document.createElement('button');
-        dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-indigo-500 w-6' : 'bg-slate-700 hover:bg-slate-500'}`;
+        dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-indigo-500 w-4' : 'bg-slate-700'}`;
         dot.onclick = () => jumpToStackCard(idx);
         dotsContainer.appendChild(dot);
       });
@@ -1028,9 +973,9 @@
       const dots = dotsContainer.children;
       Array.from(dots).forEach((dot, idx) => {
         if (idx === currentIndex) {
-          dot.className = 'w-6 h-2 rounded-full bg-indigo-500 transition-all duration-300';
+          dot.className = 'w-4 h-1.5 rounded-full bg-indigo-500 transition-all duration-300';
         } else {
-          dot.className = 'w-2 h-2 rounded-full bg-slate-700 hover:bg-slate-500 transition-all duration-300';
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-slate-700 transition-all duration-300';
         }
       });
     }
