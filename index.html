@@ -345,7 +345,7 @@
     <div class="max-w-5xl mx-auto flex items-center justify-between bg-slate-900/85 backdrop-blur-md border-[1.5px] border-slate-700/80 rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2.5 shadow-xl pointer-events-auto min-h-[46px] sm:min-h-[58px]">
       
       <!-- KIRI: Foto Profil + Nama -->
-      <div id="profile-identity" class="flex items-center gap-2.5 cursor-pointer group" onclick="scrollToHero()">
+      <div id="profile-identity" class="flex items-center gap-2.5 cursor-pointer group" role="button" tabindex="0" aria-label="Kembali ke bagian Home" onclick="scrollToHero()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToHero();}">
         <div class="relative w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border-2 border-indigo-500/80 shadow-md">
           <img src="potoprofil.jpeg" alt="Abdul Hanif Al Ghazali" class="w-full h-full object-cover">
         </div>
@@ -391,10 +391,10 @@
 
       <!-- Mini Tech Stack / Domain Chips -->
       <div class="reveal-item flex flex-wrap justify-center gap-1.5 sm:gap-2.5 pt-1">
-        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Full-Stack Dev</span>
-        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Interactive Multimedia</span>
-        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Computer Vision</span>
-        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm cursor-pointer">Network & Simulation</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Full-Stack Dev</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Interactive Multimedia</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Computer Vision</span>
+        <span class="chip-interactive px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl bg-slate-900/90 text-[10px] sm:text-xs font-mono text-slate-200 shadow-sm">Network & Simulation</span>
       </div>
 
       <!-- Action Buttons di Baris Hero -->
@@ -413,7 +413,7 @@
     </div>
 
     <!-- Indicator Scroll ke Bawah -->
-    <div class="mt-8 flex flex-col items-center gap-1 cursor-pointer opacity-75 hover:opacity-100 transition" onclick="scrollToStack()">
+    <div class="mt-8 flex flex-col items-center gap-1 cursor-pointer opacity-75 hover:opacity-100 transition" role="button" tabindex="0" aria-label="Gulir ke kartu portofolio" onclick="scrollToStack()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();scrollToStack();}">
       <span class="text-[9px] sm:text-[11px] font-mono text-slate-400 uppercase tracking-widest">Scroll Down To Open Cards</span>
       <i data-lucide="chevron-down" class="w-4 h-4 text-indigo-400 animate-bounce"></i>
     </div>
@@ -581,7 +581,7 @@
                     </div>
                     <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Game deteksi gestur tangan MediaPipe & OpenCV.</p>
                   </div>
-                  <a href="https://github.com/Al-Ghazali08/boxman" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-400">
+                  <a href="https://github.com/Al-Ghazali08/boxman" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[10px] font-semibold text-indigo-400">
                     <span>Lihat Repository</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
@@ -595,7 +595,7 @@
                     </div>
                     <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website game persaingan lagu & penyanyi.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/songclash/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-cyan-400">
+                  <a href="https://al-ghazali08.github.io/songclash/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[10px] font-semibold text-cyan-400">
                     <span>Buka Web Song Clash</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
@@ -609,7 +609,7 @@
                     </div>
                     <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website undangan digital interaktif.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/undangan-ubaid-azyyati/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400">
+                  <a href="https://al-ghazali08.github.io/undangan-ubaid-azyyati/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-400">
                     <span>Buka Web Undangan</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
@@ -623,7 +623,7 @@
                     </div>
                     <p class="text-[10px] sm:text-[11px] text-slate-400 leading-tight mb-2">Website photobooth dengan kustom frame.</p>
                   </div>
-                  <a href="https://al-ghazali08.github.io/photobooth/" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-400">
+                  <a href="https://al-ghazali08.github.io/photobooth/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[10px] font-semibold text-purple-400">
                     <span>Buka Web Photobooth</span> <i data-lucide="external-link" class="w-3 h-3"></i>
                   </a>
                 </div>
@@ -654,7 +654,7 @@
 
               <!-- Reels Grid Links -->
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-1">
-                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                <a href="https://www.instagram.com/reel/DRtso87ASgL/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
                   <div class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
                     <span class="text-[11px] font-bold text-white">Instagram Reel #1</span>
@@ -662,7 +662,7 @@
                   <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                <a href="https://www.instagram.com/reel/DWqwsqfAQ8X/?dlrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
                   <div class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
                     <span class="text-[11px] font-bold text-white">Instagram Reel #2</span>
@@ -670,7 +670,7 @@
                   <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                <a href="https://www.instagram.com/reel/DW584NWj7Oo/?obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
                   <div class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
                     <span class="text-[11px] font-bold text-white">Instagram Reel #3</span>
@@ -678,7 +678,7 @@
                   <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                <a href="https://www.instagram.com/reel/DanR9KRv3yw/?rpxt=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
                   <div class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
                     <span class="text-[11px] font-bold text-white">Instagram Reel #4</span>
@@ -686,7 +686,7 @@
                   <i data-lucide="external-link" class="w-3 h-3 text-purple-300"></i>
                 </a>
 
-                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
+                <a href="https://www.instagram.com/reel/DbCuF7MvTyH/?vrfl=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-purple-500/60 rounded-xl transition flex items-center justify-between group">
                   <div class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-3.5 h-3.5 text-purple-400"></i>
                     <span class="text-[11px] font-bold text-white">Instagram Reel #5</span>
@@ -730,7 +730,7 @@
                   </div>
                 </a>
 
-                <a href="https://wa.me/6281346170887" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                <a href="https://wa.me/6281346170887" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
                   <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
                   <div>
                     <div class="text-[11px] font-semibold text-white">WhatsApp</div>
@@ -738,7 +738,7 @@
                   </div>
                 </a>
 
-                <a href="https://github.com/Al-Ghazali08" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                <a href="https://github.com/Al-Ghazali08" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
                   <i data-lucide="github" class="w-4 h-4 text-indigo-400"></i>
                   <div>
                     <div class="text-[11px] font-semibold text-white">GitHub</div>
@@ -746,7 +746,7 @@
                   </div>
                 </a>
 
-                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
+                <a href="https://www.instagram.com/hanfghzl_?rpxt=MW5sNjBmMGFsNzJ6dQ==" target="_blank" rel="noopener noreferrer" class="p-2.5 sm:p-3 rounded-xl bg-slate-900/90 border border-slate-700 flex items-center gap-2.5 transition">
                   <i data-lucide="instagram" class="w-4 h-4 text-pink-400"></i>
                   <div>
                     <div class="text-[11px] font-semibold text-white">Instagram</div>
@@ -788,7 +788,13 @@
 
   <!-- Interactive Scripts -->
   <script>
-    lucide.createIcons();
+    // Inisialisasi ikon dibuat aman jika CDN ikon gagal dimuat.
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+    refreshIcons();
 
     // 0. LOGIKA BACKSOUND MUSIC
     const audio = document.getElementById('bg-audio');
@@ -796,34 +802,51 @@
     const audioIcon = document.getElementById('audio-icon');
     let hasInteracted = false;
 
-    audio.volume = 0.15;
+    function syncAudioUI() {
+      if (!audio || !audioBtn || !audioIcon) return;
+      const isPlaying = !audio.paused && !audio.ended;
+      audioBtn.classList.toggle('is-muted', !isPlaying);
+      audioBtn.setAttribute('aria-pressed', String(isPlaying));
+      audioBtn.setAttribute('aria-label', isPlaying ? 'Matikan backsound' : 'Nyalakan backsound');
+      audioIcon.setAttribute('data-lucide', isPlaying ? 'volume-2' : 'volume-x');
+      refreshIcons();
+    }
+
+    if (audio) {
+      audio.volume = 0.15;
+      audio.addEventListener('play', syncAudioUI);
+      audio.addEventListener('pause', syncAudioUI);
+      audio.addEventListener('ended', syncAudioUI);
+      audio.addEventListener('error', syncAudioUI);
+    }
 
     function playAudio() {
-      audio.play().then(() => {
-        audioBtn.classList.remove('is-muted');
-        audioIcon.setAttribute('data-lucide', 'volume-2');
-        lucide.createIcons();
-      }).catch(err => {
-        console.log("Autoplay ditahan browser.", err);
-      });
+      if (!audio) return;
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.catch(() => {
+          // Browser dapat menolak pemutaran otomatis; tombol tetap bisa digunakan.
+          syncAudioUI();
+        });
+      }
     }
 
     function toggleAudio() {
+      if (!audio) return;
       if (audio.paused) {
         playAudio();
       } else {
         audio.pause();
-        audioBtn.classList.add('is-muted');
-        audioIcon.setAttribute('data-lucide', 'volume-x');
-        lucide.createIcons();
       }
     }
 
-    document.addEventListener('click', () => {
-      if (!hasInteracted) {
-        hasInteracted = true;
-        playAudio();
-      }
+    // Klik pertama mencoba memutar backsound, kecuali klik itu sendiri adalah tombol audio.
+    // Ini mencegah tombol audio menjalankan play() dan pause() sekaligus akibat bubbling.
+    document.addEventListener('click', (event) => {
+      if (hasInteracted) return;
+      hasInteracted = true;
+      if (audioBtn && audioBtn.contains(event.target)) return;
+      playAudio();
     }, { once: true });
 
     // 1. STAGGERED HERO REVEAL ON LOAD
@@ -838,10 +861,11 @@
 
     // 2. BACKGROUND PARTICLE CANVAS
     const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas ? canvas.getContext('2d') : null;
     let particles = [];
 
     function resizeCanvas() {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
@@ -853,8 +877,8 @@
         this.reset();
       }
       reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas ? canvas.width : window.innerWidth);
+        this.y = Math.random() * (canvas ? canvas.height : window.innerHeight);
         this.size = Math.random() * 1.5 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.4;
         this.speedY = (Math.random() - 0.5) * 0.4;
@@ -863,7 +887,7 @@
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+        if (this.x < 0 || this.x > (canvas ? canvas.width : window.innerWidth) || this.y < 0 || this.y > (canvas ? canvas.height : window.innerHeight)) {
           this.reset();
         }
       }
@@ -878,14 +902,16 @@
     for (let i = 0; i < 35; i++) particles.push(new Particle());
 
     function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      if (ctx && canvas && !document.hidden) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+      }
       requestAnimationFrame(animateParticles);
     }
-    animateParticles();
+    if (ctx) animateParticles();
 
     // 3. CARD STACK LOGIC & TRANSISI DINAMIS PROFIL
     let currentIndex = 0;
@@ -947,6 +973,9 @@
       cards.forEach((_, idx) => {
         const dot = document.createElement('button');
         dot.className = `w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-indigo-500 w-4' : 'bg-slate-700'}`;
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Buka kartu ${idx + 1}`);
+        dot.setAttribute('aria-current', idx === currentIndex ? 'true' : 'false');
         dot.onclick = () => jumpToStackCard(idx);
         dotsContainer.appendChild(dot);
       });
@@ -975,36 +1004,60 @@
       Array.from(dots).forEach((dot, idx) => {
         if (idx === currentIndex) {
           dot.className = 'w-4 h-1.5 rounded-full bg-indigo-500 transition-all duration-300';
+          dot.setAttribute('aria-current', 'true');
         } else {
           dot.className = 'w-1.5 h-1.5 rounded-full bg-slate-700 transition-all duration-300';
+          dot.setAttribute('aria-current', 'false');
         }
       });
     }
 
-    function nextCard() {
-      const activeCard = cards[currentIndex];
-      activeCard.classList.add('send-to-back');
+    // Durasi ini disamakan dengan animasi CSS sendBack (0.65 detik).
+    // Satu kunci bersama mencegah klik cepat membuat beberapa transisi saling tumpang tindih.
+    const CARD_TRANSITION_MS = 650;
+    let isCardTransitioning = false;
+    let cardTransitionTimer = null;
 
-      setTimeout(() => {
-        currentIndex = (currentIndex + 1) % totalCards;
+    function finishCardTransition(nextIndex) {
+      if (cardTransitionTimer !== null) clearTimeout(cardTransitionTimer);
+      cardTransitionTimer = setTimeout(() => {
+        currentIndex = nextIndex;
         updateCardStack();
-      }, 300);
+        isCardTransitioning = false;
+        cardTransitionTimer = null;
+      }, CARD_TRANSITION_MS);
+    }
+
+    function nextCard() {
+      if (isCardTransitioning || totalCards < 1) return;
+      isCardTransitioning = true;
+      const activeCard = cards[currentIndex];
+      if (!activeCard) {
+        isCardTransitioning = false;
+        return;
+      }
+      activeCard.classList.add('send-to-back');
+      finishCardTransition((currentIndex + 1) % totalCards);
     }
 
     function prevCard() {
+      if (isCardTransitioning || totalCards < 1) return;
       currentIndex = (currentIndex - 1 + totalCards) % totalCards;
       updateCardStack();
     }
 
     function jumpToStackCard(index) {
       scrollToStack();
-      if (index === currentIndex) return;
+      if (!Number.isInteger(index) || index < 0 || index >= totalCards) return;
+      if (isCardTransitioning || index === currentIndex || totalCards < 1) return;
+      isCardTransitioning = true;
       const activeCard = cards[currentIndex];
+      if (!activeCard) {
+        isCardTransitioning = false;
+        return;
+      }
       activeCard.classList.add('send-to-back');
-      setTimeout(() => {
-        currentIndex = index;
-        updateCardStack();
-      }, 250);
+      finishCardTransition(index);
     }
 
     function scrollToHero() {
