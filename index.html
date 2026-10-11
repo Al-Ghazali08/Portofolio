@@ -248,6 +248,16 @@
       animation: sendBack 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+      }
+      .glow-bg, .bar, .animate-bounce, .animate-pulse {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
     @keyframes sendBack {
       0% {
         transform: translateY(0) scale(1) rotate(0deg);
@@ -1038,11 +1048,15 @@
 
     function playAudio() {
       if (!audio) return;
-      const playPromise = audio.play();
-      if (playPromise && typeof playPromise.then === 'function') {
-        playPromise.catch(() => {
-          syncAudioUI();
-        });
+      try {
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.catch(() => {
+            syncAudioUI();
+          });
+        }
+      } catch (error) {
+        syncAudioUI();
       }
     }
 
@@ -1297,9 +1311,9 @@
       const canvasElem = document.getElementById('lanyard-canvas');
       const cardDom = document.getElementById('lanyard-card-dom');
 
-      if (!window.Matter) return;
+      if (!window.Matter || !canvasElem || !cardDom) return;
 
-      const { Engine, Bodies, Composite, Constraint, Mouse, MouseConstraint } = Matter;
+      const { Engine, Bodies, Composite, Constraint, Mouse, MouseConstraint } = window.Matter;
 
       if (physicsEngine) {
         Engine.clear(physicsEngine);
@@ -1314,6 +1328,8 @@
       canvasElem.height = height;
 
       const canvasCtx = canvasElem.getContext('2d');
+      if (!canvasCtx) return;
+
       const anchorX = getAnchorX();
       const anchorY = -20;
 
@@ -1335,13 +1351,13 @@
 
       const mouse = Mouse.create(canvasElem);
 
-      canvasElem.addEventListener('wheel', (e) => {
+      canvasElem.onwheel = (e) => {
         e.preventDefault();
         window.scrollBy({
           top: e.deltaY * 0.8,
           behavior: 'smooth'
         });
-      }, { passive: false });
+      };
 
       const mouseConstraint = MouseConstraint.create(physicsEngine, {
         mouse: mouse,
@@ -1389,10 +1405,11 @@
     }
 
     function toggleLanyard(show) {
-      // HANYA AKTIFKAN LANYARD JIKA DI LAYAR DESKTOP / PC (WIDTH >= 640px)
-      if (window.innerWidth < 640) return;
+      // Lanyard hanya boleh dibuka di desktop, tetapi harus tetap bisa ditutup saat layar mengecil.
+      if (show && window.innerWidth < 640) return;
 
       const container = document.getElementById('lanyard-container');
+      if (!container) return;
 
       if (show) {
         isLanyardActive = true;
