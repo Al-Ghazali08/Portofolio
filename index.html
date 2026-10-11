@@ -155,7 +155,7 @@
       perspective: 1200px;
       position: relative;
       width: 100%;
-      height: 520px;
+      height: 500px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -325,16 +325,17 @@
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Widget Control Audio Floating (Diubah posisinya agar tidak bentrok di HP) -->
-  <div class="fixed top-4 right-4 sm:top-auto sm:bottom-6 sm:right-6 z-50">
-    <button id="audio-toggle-btn" onclick="toggleAudio()" class="is-muted flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border-[1.5px] border-slate-700/80 hover:border-indigo-500/80 text-white shadow-xl transition-all active:scale-95 group" title="Nyalakan/Matikan Backsound">
+  <!-- Widget Control Audio Floating (Pojok Kanan Bawah, Bebas dari Header Atas) -->
+  <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+    <button id="audio-toggle-btn" onclick="toggleAudio()" class="is-muted flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border-[1.5px] border-slate-700/80 hover:border-indigo-500/80 text-white shadow-2xl transition-all active:scale-95 group" title="Nyalakan/Matikan Backsound">
       <div class="flex items-end gap-0.5 h-3.5 w-3.5 justify-center">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
-      <span id="audio-status-text" class="text-[10px] sm:text-[11px] font-mono text-slate-300 group-hover:text-white transition">Something Just Like This</span>
+      <!-- Teks disembunyikan di layar HP kecil agar tidak makan tempat -->
+      <span id="audio-status-text" class="hidden sm:inline text-[11px] font-mono text-slate-300 group-hover:text-white transition">Something Just Like This</span>
       <i id="audio-icon" data-lucide="volume-x" class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition"></i>
     </button>
   </div>
